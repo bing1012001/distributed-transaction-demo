@@ -1,37 +1,33 @@
-package com.payment.transfer.module.mapper;
+package com.seata.payment.transfer1.mapper;
 
-import com.payment.transfer.module.entity.Account;
-import com.payment.transfer.module.entity.TransferRecord;
-import org.apache.ibatis.annotations.Mapper;
+import com.seata.payment.transfer1.entity.Account;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.internal.verification.Times;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Slf4j
 public class AccountMapperTest {
 
     @Resource
     private AccountMapper accountMapper;
 
-    @Resource
-    private TransferRecordMapper transferRecordMapper;
+
 
     @Before
     public void setup() {
         Assert.assertNotNull(accountMapper);
-        Assert.assertNotNull(transferRecordMapper);
+
     }
 
     @Test
@@ -51,18 +47,11 @@ public class AccountMapperTest {
     }
 
     @Test
-    public void transferRecordTest() {
-        String messageID = UUID.randomUUID().toString();
-        TransferRecord transferRecord = TransferRecord.builder()
-                .messageId(messageID)
-                .userId("c0eb0353-5477-44ed-8cde-4bd56552e411")
-                .status("PENDING")
-                .amount(100)
-                .build();
-        transferRecordMapper.addNewTransferRecord(transferRecord);
-        TransferRecord transferRecord1 = transferRecordMapper.findTransferRecord(messageID);
-        transferRecord1.setStatus("CONFIRMED");
-        transferRecordMapper.updateTransferRecord(transferRecord1);
+    public void updateAccountBalanceTest() {
+        Account account = accountMapper.getAccountInfo("c0eb0353-5477-44ed-8cde-4bd56552e411");
+        log.info(account.toString());
+        account.setAmount(200);
+        accountMapper.updateAccount(account);
 
     }
 

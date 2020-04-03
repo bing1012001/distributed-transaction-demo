@@ -1,4 +1,4 @@
-package com.payment.transfer.module.entity;
+package com.seata.payment.transfer1.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,7 +7,6 @@ import lombok.ToString;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -16,7 +15,7 @@ import java.util.Date;
 public class Account implements Serializable {
     private String userId;
 
-    private Integer amount;
+    private Integer balance;
 
     private Timestamp updateTime;
 
