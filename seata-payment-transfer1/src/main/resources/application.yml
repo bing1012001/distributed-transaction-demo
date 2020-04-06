@@ -10,18 +10,48 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
-
   ######################## DB CONFIGURATION #####################
   datasource:
-    druid-datasource:
+    ds0:
       url: jdbc:mysql://localhost:3306/cloudpayment?serverTimezone=UTC #useUnicode=true&characterEncoding=utf-8&useSSL=false
       username: root
       password: rootroot
       type: com.alibaba.druid.pool.DruidDataSource
-      driver-class-name: com.mysql.cj.jdbc.Driver
+      driver-class-name: com.mysql.jdbc.Driver
       initialSize: 5
       minIdle: 5
       maxActive: 20
       maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT user()
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      connection-properties: druid.stat.mergeSql:true;druid.stat.slowSqlMillis:5000
 
+
+eureka:
+  client:
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:7001/eureka/
+    fetch-registry: true
+  instance:
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${spring.application.instance_id:${server.port}}
+    prefer-ip-address: true
+feign:
+  hystrix:
+    enabled: true
+  compression:
+    request:
+      enabled: true # 配置请求GZIP压缩
+      mime-types: ["text/xml","application/xml","application/json"] # 配置压缩支持的MIME TYPE
+      min-request-size: 2048 # 配置压缩数据大小的下限
+    response:
+      enabled: true # 配置响应GZIP压缩
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
 

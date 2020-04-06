@@ -32,7 +32,7 @@ public class AccountMapperTest {
 
     @Test
     public void accountAddTest() {
-        Account account = Account.builder().userId(UUID.randomUUID().toString()).amount(1200).updateTime(Timestamp.valueOf(LocalDateTime.now())).build();
+        Account account = Account.builder().userId(UUID.randomUUID().toString()).balance(1200).updateTime(Timestamp.valueOf(LocalDateTime.now())).build();
         int i = accountMapper.AddNewAccount(account);
         Assert.assertEquals(1, i);
 
@@ -43,15 +43,14 @@ public class AccountMapperTest {
     public void getAccountInfoTest() {
         Account account = accountMapper.getAccountInfo("c0eb0353-5477-44ed-8cde-4bd56552e411");
         Assert.assertNotNull(account);
-        Assert.assertEquals(1000, (long)account.getAmount());
+        Assert.assertEquals(1000, (long)account.getBalance());
     }
 
     @Test
     public void updateAccountBalanceTest() {
         Account account = accountMapper.getAccountInfo("c0eb0353-5477-44ed-8cde-4bd56552e411");
         log.info(account.toString());
-        account.setAmount(200);
-        accountMapper.updateAccount(account);
+        accountMapper.updateAccount(account.getUserId(),200);
 
     }
 
