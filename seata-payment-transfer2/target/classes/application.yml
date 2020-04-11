@@ -43,3 +43,6 @@ feign:
       min-request-size: 2048 # 配置压缩数据大小的下限
     response:
       enabled: true # 配置响应GZIP压缩
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
